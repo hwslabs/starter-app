@@ -82,7 +82,7 @@ importSecretToCodeBuild() {
 
 addOrUpdateParameter /code-pipeline/notifications/email/primary-email "Email address for primary recipient of Pipeline notifications" $PRIMARY_EMAIL_ADDRESS
 
-addOrUpdateParameter /code-pipeline/builder/github/user "Github user to be used for building the code in the pipeline" $GITHUB_USER
+addOrUpdateParameter /code-pipeline/sources/github/user "Github user to be used for building the code in the pipeline" $GITHUB_USER
 
 addOrUpdateParameter /code-pipeline/sources/github/repo "Github repository name that contains the build sources for the pipeline" $GITHUB_REPO
 
