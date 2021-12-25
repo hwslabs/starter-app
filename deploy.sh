@@ -97,7 +97,7 @@ importSecretToCodeBuild $GITHUB_TOKEN
 createSecretIfNotExists rds/cluster/root/password "Root password for the RDS cluster" $DB_ROOT_PASSWORD
 
 echo "Initializing the infrastructure project..."
-pushd {TEMPLATE_SERVICE_HYPHEN_NAME}-app-infrastructure
+pushd {TEMPLATE_SERVICE_HYPHEN_NAME}-infrastructure
 npm install
 npm install -g ts-node
 npm install -g aws-cdk
