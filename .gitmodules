@@ -1,3 +1,3 @@
-[submodule "starter-app-infrastructure"]
-	path = starter-app-infrastructure
-	url = https://github.com/hwslabs/starter-app-infrastructure.git
+[submodule "starter-infrastructure"]
+	path = starter-infrastructure
+	url = https://github.com/hwslabs/starter-infrastructure.git
