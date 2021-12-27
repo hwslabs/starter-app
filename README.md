@@ -5,14 +5,15 @@
 This directory contains a simple starter pack written for a Ruby on Rails server.
 You can find detailed instructions for building and running example from below
 
-- ** Deployer ** for Ruby on Rails on AWS. For details, see the [project on github](https://gitlab.com/hwslabs/starter-app).
+- ** Deployer ** for Ruby on Rails on AWS. This project was created from a template.
+- For details, see the template [project on github](https://gitlab.com/hwslabs/starter-app).
 
 ## Package Structure
 
 The workspace is organized into the following top-level folders:
 
 - [{TEMPLATE_SERVER_NAME}]({TEMPLATE_SERVER_NAME}): Rails HTTP server
-- [{TEMPLATE_SERVICE_HYPHEN_NAME}-infrastructure]({TEMPLATE_SERVICE_HYPHEN_NAME}--infrastructure): Infrastructure-as-code to deploy and run server remotely on AWS.
+- [{TEMPLATE_SERVICE_HYPHEN_NAME}-infrastructure]({TEMPLATE_SERVICE_HYPHEN_NAME}-infrastructure): Infrastructure-as-code to deploy and run server remotely on AWS.
 - [deploy.sh](deploy.sh): Script to initialize and deploy the infrastructure
 - [teardown.sh](teardown.sh): Script to destroy the infrastructure and cleanup
 
