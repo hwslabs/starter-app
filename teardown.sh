@@ -40,6 +40,10 @@ echo "Cleaning up infra package..."
 npm run clean
 popd
 
+echo "Tearing down the ECR repository in AWS..."
+echo "Note: This step is done manually because CDK and Cloudformation do not support force delete..."
+aws ecr delete-repository --repository-name {TEMPLATE_SERVICE_HYPHEN_NAME} --force
+
 echo "Retrieving CodeBuild credentials ARN..."
 credentialsArn=$(getParameter /{TEMPLATE_SERVICE_HYPHEN_NAME}/code-build/github/access-token/arn)
 deleteSourceCredentials "$credentialsArn"
