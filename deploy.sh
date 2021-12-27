@@ -76,11 +76,11 @@ createSecretIfNotExists() {
 }
 
 importSecretToCodeBuild() {
-    echo "Importing GitHub oAuth token into CodeBuild..."
     credentialsArn=$(aws codebuild import-source-credentials --server-type GITHUB --auth-type PERSONAL_ACCESS_TOKEN --token $1 | jq --raw-output .arn)
     echo "$credentialsArn"
 }
 
+echo "Importing GitHub oAuth token into CodeBuild..."
 credentialsArn=$(importSecretToCodeBuild "$GITHUB_TOKEN")
 
 echo "Adding parameters to AWS SSM..."
@@ -98,7 +98,7 @@ addOrUpdateParameter /{TEMPLATE_SERVICE_HYPHEN_NAME}/code-pipeline/sources/githu
 
 #addOrUpdateParameter /{TEMPLATE_SERVICE_HYPHEN_NAME}/code-pipeline/notifications/slack/channel-id "Slack channel ID to receive Pipeline state change notifications" "$SLACK_CHANNEL_ID"
 
-createSecretIfNotExists /{TEMPLATE_SERVICE_HYPHEN_NAME}/rds/cluster/root/password "Root password for the RDS cluster" "$DB_ROOT_PASSWORD"
+createSecretIfNotExists /{TEMPLATE_SERVICE_HYPHEN_NAME}/database/cluster/root/password "Root password for the RDS cluster" "$DB_ROOT_PASSWORD"
 
 echo "Initializing the infrastructure project..."
 pushd {TEMPLATE_SERVICE_HYPHEN_NAME}-infrastructure

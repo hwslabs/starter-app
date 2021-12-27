@@ -6,12 +6,11 @@ deleteParameter() {
 }
 
 getParameter() {
-  echo "Retrieving parameter \"$1\"..."
   aws ssm get-parameter --name "$1" | jq --raw-output .Parameter.Value
 }
 
 deleteSourceCredentials() {
-  echo "Deleting GitHub oAuth token from CodeBuild..."
+  echo "Deleting GitHub oAuth token from CodeBuild with ARN - $1..."
   aws codebuild delete-source-credentials --arn "$1"
 }
 
@@ -23,7 +22,7 @@ deleteSecretIfExists() {
     then
         echo "Secret exists..."
         echo "Deleting secret \"$1\" that was used in the infra..."
-        aws secretsmanager delete-secret --secret-id "$1"
+        aws secretsmanager delete-secret --secret-id "$1" --force-delete-without-recovery
         echo "Secret deleted successfully..."
     else
         echo "Secret was not found..."
@@ -60,4 +59,4 @@ deleteParameter /{TEMPLATE_SERVICE_HYPHEN_NAME}/code-pipeline/sources/github/bra
 
 #deletePParameter /{TEMPLATE_SERVICE_HYPHEN_NAME}/code-pipeline/notifications/slack/channel-id
 
-deleteSecretIfExists /{TEMPLATE_SERVICE_HYPHEN_NAME}/rds/cluster/root/password
+deleteSecretIfExists /{TEMPLATE_SERVICE_HYPHEN_NAME}/database/cluster/root/password
