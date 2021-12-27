@@ -11,7 +11,7 @@ You can find detailed instructions for building and running example from below
 
 The starter sources are organized into the following top-level folders:
 
-- [{TEMPLATE_APP_NAME}]({TEMPLATE_APP_NAME}): Rails HTTP server
+- [{TEMPLATE_SERVER_NAME}]({TEMPLATE_SERVER_NAME}): Rails HTTP server
 - [{TEMPLATE_SERVICE_HYPHEN_NAME}-infrastructure]({TEMPLATE_SERVICE_HYPHEN_NAME}--infrastructure): Infrastructure-as-code to deploy and run server remotely on AWS.
 - [deploy.sh](deploy.sh): Script to initialize and deploy the infrastructure
 - [teardown.sh](teardown.sh): Script to destroy the infrastructure and cleanup
