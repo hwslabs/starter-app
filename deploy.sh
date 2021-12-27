@@ -65,7 +65,7 @@ createSecretIfNotExists() {
     if [ "$count" -lt 1  ]
     then
         echo "Secret does not exist..."
-        echo "Creating secret \"$1\" to be used in the pipeline..."
+        echo "Creating secret \"$1\" to be used in the infra..."
         aws secretsmanager create-secret \
             --name $1 \
             --description "$2" \
@@ -76,25 +76,29 @@ createSecretIfNotExists() {
 }
 
 importSecretToCodeBuild() {
-    echo "Importing github oauth token into codebuild..."
-    aws codebuild import-source-credentials --server-type GITHUB --auth-type PERSONAL_ACCESS_TOKEN --token $1
+    echo "Importing GitHub oAuth token into CodeBuild..."
+    credentialsArn=$(aws codebuild import-source-credentials --server-type GITHUB --auth-type PERSONAL_ACCESS_TOKEN --token $1 | jq --raw-output .arn)
+    echo "$credentialsArn"
 }
 
-addOrUpdateParameter /code-pipeline/notifications/email/primary-email "Email address for primary recipient of Pipeline notifications" $PRIMARY_EMAIL_ADDRESS
+credentialsArn=$(importSecretToCodeBuild "$GITHUB_TOKEN")
 
-addOrUpdateParameter /code-pipeline/sources/github/user "Github user to be used for building the code in the pipeline" $GITHUB_USER
+echo "Adding parameters to AWS SSM..."
+addOrUpdateParameter /{TEMPLATE_SERVICE_HYPHEN_NAME}/code-build/github/access-token/arn "ARN of the GitHub access token imported to CodeBuild" "$credentialsArn"
 
-addOrUpdateParameter /code-pipeline/sources/github/repo "Github repository name that contains the build sources for the pipeline" $GITHUB_REPO
+addOrUpdateParameter /{TEMPLATE_SERVICE_HYPHEN_NAME}/code-pipeline/notifications/email/primary-email "Email address for primary recipient of Pipeline notifications" "$PRIMARY_EMAIL_ADDRESS"
 
-addOrUpdateParameter /code-pipeline/sources/github/branch "Github branch name that contains the build sources for the pipeline" $GITHUB_BRANCH
+addOrUpdateParameter /{TEMPLATE_SERVICE_HYPHEN_NAME}/code-pipeline/sources/github/user "Github user to be used for building the code in the pipeline" "$GITHUB_USER"
 
-#addOrUpdateParameter /code-pipeline/notifications/slack/workspace-id "Slack workspace ID to receive Pipeline state change notifications" $SLACK_WORKSPACE_ID
+addOrUpdateParameter /{TEMPLATE_SERVICE_HYPHEN_NAME}/code-pipeline/sources/github/repo "Github repository name that contains the build sources for the pipeline" "$GITHUB_REPO"
 
-#addOrUpdateParameter /code-pipeline/notifications/slack/channel-id "Slack channel ID to receive Pipeline state change notifications" $SLACK_CHANNEL_ID
+addOrUpdateParameter /{TEMPLATE_SERVICE_HYPHEN_NAME}/code-pipeline/sources/github/branch "Github branch name that contains the build sources for the pipeline" "$GITHUB_BRANCH"
 
-importSecretToCodeBuild $GITHUB_TOKEN
+#addOrUpdateParameter /{TEMPLATE_SERVICE_HYPHEN_NAME}/code-pipeline/notifications/slack/workspace-id "Slack workspace ID to receive Pipeline state change notifications" "$SLACK_WORKSPACE_ID"
 
-createSecretIfNotExists rds/cluster/root/password "Root password for the RDS cluster" $DB_ROOT_PASSWORD
+#addOrUpdateParameter /{TEMPLATE_SERVICE_HYPHEN_NAME}/code-pipeline/notifications/slack/channel-id "Slack channel ID to receive Pipeline state change notifications" "$SLACK_CHANNEL_ID"
+
+createSecretIfNotExists /{TEMPLATE_SERVICE_HYPHEN_NAME}/rds/cluster/root/password "Root password for the RDS cluster" "$DB_ROOT_PASSWORD"
 
 echo "Initializing the infrastructure project..."
 pushd {TEMPLATE_SERVICE_HYPHEN_NAME}-infrastructure

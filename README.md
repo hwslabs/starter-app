@@ -1,15 +1,15 @@
-# Rails Deployer App
+# Rails Deployer
 
 ## Overview
 
 This directory contains a simple starter pack written for a Ruby on Rails server.
 You can find detailed instructions for building and running example from below
 
-- ** Deployer App** for Ruby on Rails on AWS. For details, see the [project on github](https://gitlab.com/hwslabs/starter-app).
+- ** Deployer ** for Ruby on Rails on AWS. For details, see the [project on github](https://gitlab.com/hwslabs/starter-app).
 
-## File organization
+## Package Structure
 
-The starter sources are organized into the following top-level folders:
+The workspace is organized into the following top-level folders:
 
 - [{TEMPLATE_SERVER_NAME}]({TEMPLATE_SERVER_NAME}): Rails HTTP server
 - [{TEMPLATE_SERVICE_HYPHEN_NAME}-infrastructure]({TEMPLATE_SERVICE_HYPHEN_NAME}--infrastructure): Infrastructure-as-code to deploy and run server remotely on AWS.
