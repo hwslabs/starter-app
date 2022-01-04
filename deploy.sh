@@ -100,6 +100,13 @@ addOrUpdateParameter /{TEMPLATE_SERVICE_HYPHEN_NAME}/code-pipeline/sources/githu
 
 createSecretIfNotExists /{TEMPLATE_SERVICE_HYPHEN_NAME}/database/cluster/root/password "Root password for the RDS cluster" "$DB_ROOT_PASSWORD"
 
+echo "Initializing the infrastructure project..."
+pushd {TEMPLATE_SERVICE_HYPHEN_NAME}-infrastructure
+npm install
+npm install -g ts-node
+npm install -g aws-cdk
+cdk bootstrap --require-approval=never
+
 echo "Deploying your infrastructure in AWS..."
 cdk deploy --require-approval=never
 popd
